@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: pathready
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: OPENAI_API_KEY      # optional - leave empty to use the offline keyword method
+        sync: false
+      - key: ANTHROPIC_API_KEY   # optional alternative to OpenAI
+        sync: false
+      - key: AI_PROVIDER
+        value: auto
+      - key: ALLOWED_ORIGINS
+        value: same-origin
+      - key: RATE_LIMIT_PER_HOUR
+        value: "10"
